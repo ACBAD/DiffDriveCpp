@@ -1,4 +1,4 @@
-#include "Encoder.h"
+#include <Encoder.h>
 
 namespace encoder {
   Encoder::Encoder() {
