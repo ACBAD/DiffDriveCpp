@@ -137,7 +137,15 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(odometry_node src/odometry_node.cpp src/Encoder.cpp src/Odometry.cpp)
+add_executable(odometry_node
+    src/odometry_node.cpp
+    src/Encoder.cpp
+    src/Odometry.cpp)
+add_executable(controller_node
+    src/controller_node.cpp
+    src/Encoder.cpp
+    src/Controller.cpp
+)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -151,6 +159,7 @@ add_executable(odometry_node src/odometry_node.cpp src/Encoder.cpp src/Odometry.
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(odometry_node ${catkin_LIBRARIES})
+target_link_libraries(controller_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
