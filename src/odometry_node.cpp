@@ -38,7 +38,7 @@ void lwCallback(const std_msgs::Int32& msg) {
   odometry.updateLeftWheel(msg.data);
 }
 
-void publish() {
+void odom_publish() {
   odometry.updatePose(ros::Time::now());
   Pose pose = odometry.getPose();
   tf2::Quaternion q;
@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
 
   while (ros::ok()) {
     ros::spinOnce();
-    publish();
+    odom_publish();
     srate.sleep();
   }
   return 0;
