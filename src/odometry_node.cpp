@@ -9,7 +9,6 @@
 #include <Odometry.h>
 
 odometry_namespace::Odometry odometry;
-tf2_ros::TransformBroadcaster broadcaster;
 std::string base_frame_id;
 std::string odom_frame_id;
 ros::Publisher odom_pub;
@@ -38,7 +37,7 @@ void lwCallback(const std_msgs::Int32& msg) {
   odometry.updateLeftWheel(msg.data);
 }
 
-void odom_publish() {
+void odom_publish(tf2_ros::TransformBroadcaster& broadcaster) {
   odometry.updatePose(ros::Time::now());
   Pose pose = odometry.getPose();
   tf2::Quaternion q;
@@ -74,7 +73,7 @@ void odom_publish() {
 
 int main(int argc, char* argv[]) {
   ros::init(argc, argv, "odometry_node");
-
+  tf2_ros::TransformBroadcaster broadcaster;
   int32_t ticks_per_meter;
 #ifndef TICKS_PER_METER
   if(!ros::param::get("~ticks_per_meter", ticks_per_meter)) {
@@ -126,7 +125,7 @@ int main(int argc, char* argv[]) {
 
   while (ros::ok()) {
     ros::spinOnce();
-    odom_publish();
+    odom_publish(broadcaster);
     srate.sleep();
   }
   return 0;
