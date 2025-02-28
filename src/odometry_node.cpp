@@ -39,16 +39,15 @@ void lwCallback(const std_msgs::Int32& msg) {
 
 void odom_publish(tf2_ros::TransformBroadcaster& broadcaster) {
   odometry.updatePose(ros::Time::now());
-  Pose pose = odometry.getPose();
+  const Pose pose = odometry.getPose();
   tf2::Quaternion q;
-  double zero = 0;
-  tf2::Matrix3x3(q).getRPY(zero, zero, pose.theta);
+  q.setRPY(0, 0, pose.theta);
+  q.normalize();
   geometry_msgs::TransformStamped transform;
   transform.header.stamp = ros::Time::now();
   transform.transform.translation.x = pose.x;
   transform.transform.translation.y = pose.y;
   transform.transform.translation.z = 0;
-  q.normalize();
   transform.transform.rotation.x = q[0];
   transform.transform.rotation.y = q[1];
   transform.transform.rotation.z = q[2];
@@ -63,7 +62,6 @@ void odom_publish(tf2_ros::TransformBroadcaster& broadcaster) {
   odom_data.child_frame_id = base_frame_id;
   odom_data.pose.pose.position.x = pose.x;
   odom_data.pose.pose.position.y = pose.y;
-  q.normalize();
   odom_data.pose.pose.orientation.x = q[0];
   odom_data.pose.pose.orientation.y = q[1];
   odom_data.pose.pose.orientation.z = q[2];
