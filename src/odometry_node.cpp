@@ -51,7 +51,7 @@ void odom_publish(tf2_ros::TransformBroadcaster& broadcaster) {
   transform.transform.rotation.x = q[0];
   transform.transform.rotation.y = q[1];
   transform.transform.rotation.z = q[2];
-  transform.transform.rotation.w = static_cast<bool>(q[3]) ? q[3] : 1;
+  transform.transform.rotation.w = q[3] == 0 ? 1 : q[3];
   transform.header.frame_id = odom_frame_id;
   transform.child_frame_id = base_frame_id;
   broadcaster.sendTransform(transform);
@@ -65,7 +65,7 @@ void odom_publish(tf2_ros::TransformBroadcaster& broadcaster) {
   odom_data.pose.pose.orientation.x = q[0];
   odom_data.pose.pose.orientation.y = q[1];
   odom_data.pose.pose.orientation.z = q[2];
-  odom_data.pose.pose.orientation.w = static_cast<bool>(q[3]) ? q[3] : 1;
+  odom_data.pose.pose.orientation.w = q[3] == 0 ? 1 : q[3];
   odom_data.twist.twist.linear.x = pose.xVel;
   odom_data.twist.twist.angular.z = pose.thetaVel;
   odom_pub.publish(odom_data);
