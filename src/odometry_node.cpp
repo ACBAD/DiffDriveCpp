@@ -54,6 +54,9 @@ void odom_publish(tf2_ros::TransformBroadcaster& broadcaster) {
   transform.transform.rotation.w = q[3];
   transform.header.frame_id = odom_frame_id;
   transform.child_frame_id = base_frame_id;
+  const double pose_length = sqrt(pose.x * pose.x + pose.y * pose.y);
+  if (pose_length > 100)
+    ROS_WARN("Length too long, now %lf", pose_length);
   broadcaster.sendTransform(transform);
 
   nav_msgs::Odometry odom_data;
