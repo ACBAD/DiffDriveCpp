@@ -4,5 +4,5 @@ develop is on progress.
 
 TODO:
 - [ ] controller
-- [ ] odometry
+- [x] odometry
 - [ ] go_to_goal
